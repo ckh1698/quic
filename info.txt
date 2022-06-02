@@ -169,6 +169,27 @@ ping -c 5 54.204.39.132
 
 
 
+Different versions of firefox
+JA3 fields 				All versions had the same result
+transport_parameters	Version 90 and 92 had different values than the rest of them	2 fields different : tls.quic.parameter.initial_max_stream_data_bidi_local, tls.quic.parameter.initial_max_data
+quic_data 				All versions had the same result
+ext-fields-1 			All versions had the same result
+ext-fields-2 			All versions had the same result
+remianing_field 		All versions had the same result
+
+
+
+
+
+Different machine - same browser (firefox)
+
+JA3 fields 				All versions had the same result
+transport_parameters	All versions had the same result
+quic_data 				All versions had the same result
+ext-fields-1 			All versions had the same result
+ext-fields-2 			All versions had the same result
+remianing_field 		All versions had the same result
+
 
 
 
