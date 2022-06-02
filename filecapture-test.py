@@ -10,7 +10,7 @@ iface_name = 'en0'
 filter_string = 'port 443'
 
 # building our live capture instance
-capture = pyshark.FileCapture(input_file="/Users/ckharbanda/Desktop/227/project/pcap-files/firefox/cbonat1.pcap")
+capture = pyshark.FileCapture(input_file="/Users/ckharbanda/Desktop/227/project/pcap-files/firefox/gumtree-1.pcap")
 
 # for capturing the traffic
 # timeout of 5 seconds and a limit of 10 packets total
@@ -25,7 +25,26 @@ def writeByteStringToFile(out, data):
     out.write(json.dumps(data))
     out.write("\n")
 
-filename = "example-del.pcap"
+def get_packet_details(packet):
+    """
+    This function is designed to parse specific details from an individual packet.
+    :param packet: raw packet from either a pcap file or via live capture using TShark
+    :return: specific packet details
+    """
+    protocol = packet.transport_layer
+    source_address = packet.ip.src
+    source_port = packet[packet.transport_layer].srcport
+    destination_address = packet.ip.dst
+    destination_port = packet[packet.transport_layer].dstport
+    packet_time = packet.sniff_time
+    return f'Packet Timestamp: {packet_time}' \
+           f'\nProtocol type: {protocol}' \
+           f'\nSource address: {source_address}' \
+           f'\nSource port: {source_port}' \
+           f'\nDestination address: {destination_address}' \
+           f'\nDestination port: {destination_port}\n'
+
+filename = "example-del.json"
 out = open(filename, 'w')
 i = 1
 j = 1
@@ -38,9 +57,15 @@ max_pos = 0
 min_pos = 0
 for packet in capture:
     if(packet.__contains__("quic")):
-        writeByteStringToFile(out, packet.quic.__dict__["_all_fields"])
         if i == 0 or i == 1:
-            print(i, "###############", packet.quic.__dict__["_all_fields"])
+            writeByteStringToFile(out, packet.quic.__dict__["_all_fields"])
+            # print(i, "###############", packet.quic.__dict__["_all_fields"])
+            # print("1: ", packet.transport_layer)
+            # print("2: ", packet.ip)                      
+            # print("3: ",packet[packet.transport_layer].dstport)
+            print("Packet details :\n", get_packet_details(packet))
+            print("All_fields : \n", packet.quic.__dict__["_all_fields"].keys())
+
         l = len(packet.quic.__dict__["_all_fields"])
         if max_l < l:
             max_l = l
