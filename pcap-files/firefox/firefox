@@ -1,0 +1,196 @@
+Link : 
+https://firefox.en.uptodown.com/mac/versions
+
+QUIC support added in May 2021
+
+---------------------------------------------------
+PHASE - 1
+---------------------------------------------------
+101.0 	 	May 30th, 2022 		
+100.0 		May 6th, 2022		
+99.0 		Apr 5th, 2022		
+98.0 		Mar 8th, 2022		
+97.0 		Feb 3rd, 2022		
+94.0 		Nov 2nd, 2021
+92.0 		Sep 6th, 2021
+90.0 		Jul 13th, 2021 
+
+WEBSITE CHOSEN - 
+34.120.45.191	semrush.com
+
+
+Important: By default, Firefox is set for automatic updates. To prevent Firefox from automatically updating itself after you install an older version, you'll need to change your Firefox update settings:
+
+In the Menu bar at the top of the screen, click Firefox and select Preferences.
+In the General panel, go to the Firefox Updates section.
+
+the TLS protocol consists of two parts:
+the Handshake protocol and the Record protocol.
+
+- The Handshake protocol : authentication of parties and negotiation of cryptographic parameters and key establishment
+
+Look for preferred cipher and TLS version
+OPEN SOURCE VERSION OF TLS FINGERPRINTING : 
+	- JA3
+		> TLS VERSION
+		> ACCEPTED CIPHERS
+		> LIST OF EXTENSIONS
+		> ELLIPTIC CURVE
+		> ELLIPTIC CURVE FORMAT
+
+tls.handshake.version
+tls.handshake.cipher_suites_length ??
+tls.handshake.ciphersuites --> number of cipher suites supported
+tls.handshake.ciphersuite
+
+JA3 STRING : 
+771,4865-4867-4866,0-23-65281-10-16-5-34-51-43-13-45-28-57-21,29-23-24-25-256-257-258-259-260
+
+TLS VERSION 									= 771
+CIPHERS SUITES 									= 4865-4867-4866
+LIST OF EXTENSION VALUES MAPPED WITH IANA DB 	= 0-23-65281-10-16-5-34-51-43-13-45-28-57-21
+EXTENSION: SUPPORTED_GROUPS 					= 29-23-24-25-256-257-258-259-260
+
+Try values of : 
+Extension.Application layer protocol negotiation 
+Extension.status_request ... certificate type
+Extension.delegated_credentials ... signature hash algorithms used
+Extension.keyshare (maybe length)
+Extension.supported_version data (might not be different)
+Extension.signature_hash_algorithms
+
+
+
+----Trial---- // quic data
+//"quic.packet_length"
+"quic.header_form" 
+"quic.fixed_bit"  
+"quic.packet_number_length"
+"quic.version" 
+"quic.length"
+"quic.frame_type"
+"quic.crypto.offset"
+//"quic.crypto.length"
+
+
+----Trial---- // remaining fields
+"tls.handshake.type" 
+//"tls.handshake.length"
+"tls.handshake.version"
+//"tls.handshake.session_id_length"
+"tls.handshake.cipher_suites_length"
+"tls.handshake.ciphersuites"
+"tls.handshake.ciphersuite"
+"tls.handshake.comp_methods_length"
+"tls.handshake.comp_methods"
+"tls.handshake.comp_method"
+
+
+----Trial---- // extension fields 1 
+//"tls.handshake.extensions_length"
+"tls.handshake.extension.type" 
+//"tls.handshake.extension.len" 
+"tls.handshake.extensions_reneg_info_len"
+//"tls.handshake.extensions_supported_groups_length"
+"tls.handshake.extensions_supported_groups"
+"tls.handshake.extensions_supported_group" 
+
+
+
+----Trial---- // extension fields 2
+//"tls.handshake.extensions_alpn_len" 
+"tls.handshake.extensions_alpn_list"
+//"tls.handshake.extensions_alpn_str_len"
+"tls.handshake.extensions_alpn_str"
+"tls.handshake.extensions_status_request_type"
+//"tls.handshake.extensions_status_request_responder_ids_len"
+"tls.handshake.extensions_status_request_exts_len"
+//"tls.handshake.sig_hash_alg_len"
+"tls.handshake.sig_hash_algs"
+"tls.handshake.sig_hash_alg"
+"tls.handshake.sig_hash_hash"
+"tls.handshake.sig_hash_sig"
+//"tls.handshake.extensions_key_share_client_length"
+"tls.handshake.extensions_key_share_group"
+//"tls.handshake.extensions_key_share_key_exchange_length"
+"tls.handshake.extensions.supported_versions_len"
+"tls.handshake.extensions.supported_version"
+//"tls.extension.psk_ke_modes_length"
+"tls.extension.psk_ke_mode"
+"tls.record_size_limit" 
+
+
+----Trial---- // transport parameters
+"tls.quic.parameter.initial_max_stream_data_bidi_remote"
+"tls.quic.parameter.initial_max_stream_data_uni"
+"tls.quic.parameter.active_connection_id_limit"
+"tls.quic.parameter.initial_max_streams_uni"
+"tls.quic.parameter.max_idle_timeout" 
+"tls.quic.parameter.initial_max_streams_bidi"
+"tls.quic.parameter.initial_max_data" 
+"tls.quic.parameter.max_datagram_frame_size"
+"tls.quic.parameter.max_ack_delay"
+"tls.quic.parameter.initial_max_stream_data_bidi_local"
+
+
+----Trial---- // ja3 data
+"tls.handshake.ja3_full", 
+"tls.handshake.ja3"
+
+
+TASKS : 
+
+Input : 
+1. different versions of firefox : (90, 92, 94, 97, 98, 99, 100, 101) connect once
+website : semrush
+2. different machines same version of firefox : 100.0.2
+website : downloads.digitaltrends.com
+
+Fields to check against : 
+1. JA3 : ["tls.handshake.ja3_full", "tls.handshake.ja3"]
+2. check above
+
+Output : 
+Can direct print or md5 hash using the library
+
+
+Note: 
+1. See if all the ciphers can be extracted
+2. Do all of this with just taking the presence of the field and not its value
+
+
+
+
+sudo tshark -w /tmp/digitallife-1.pcap -i eth0 host 35.227.210.81
+// insert chrome command here
+ping -c 5 54.204.39.132
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
