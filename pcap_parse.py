@@ -24,17 +24,19 @@ def capture_pcap(input_file):
     out = open(filename, 'w')
     # CAPTURING THE TRANSPORT PARAMETERS PRESENT IN THE FIRST QUIC PACKET
     for packet in capture:
-        print(packet.ip.src)
-        print(packet.ip.dst)
         if(packet.__contains__("quic") and (packet.ip.src == '34.120.45.191' or packet.ip.dst == '34.120.45.191')):
             writeByteStringToFile(out, packet.quic.__dict__["_all_fields"])
             if i == 0:
-                res = res + "-" + packet.quic.__dict__["_all_fields"]
-                res = res[1:]
+                # print("res = ", packet.quic.__dict__["_all_fields"]["tls.handshake.ciphersuite"].__getattr__("tls.handshake.ciphersuite"))
+                # print("res = ", packet.quic.__dict__["_all_fields"]["tls.handshake.ciphersuite"].all_fields())
+                # print("res = ", packet.quic.field_names)
+                print("res = ", packet.quic.get_field('tls_handshake_ciphersuite').all_fields)
+            #     res = res + "-" + packet.quic.__dict__["_all_fields"]
+            #     res = res[1:]
                 i += 1
-            else:
-                break
-    print("res = ", res)
+            # else:
+            #     break
+    # print("res = ", res)
     capture.close()
 
 path = "/Users/ckharbanda/Desktop/227/project/pcap-files/ff_version/92.0_semrush-1.pcap"

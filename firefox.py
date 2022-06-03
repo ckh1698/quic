@@ -26,7 +26,7 @@ field_dict = {
     "remaining_field": ["tls.handshake.type", "tls.handshake.version", "tls.handshake.cipher_suites_length", "tls.handshake.ciphersuites", "tls.handshake.ciphersuite", "tls.handshake.comp_methods_length", "tls.handshake.comp_methods", "tls.handshake.comp_method"],
 }
 
-fields = field_dict["remaining_field"]
+fields = field_dict["transport_parameters"]
 
 def capture_pcap(input_file):
     res = ""
@@ -39,28 +39,35 @@ def capture_pcap(input_file):
     for packet in capture:
         # filtering out semrush packets (34.120.45.191) and those are quic
         # ip for digitallife (machines) - 35.227.210.81
-        if(packet.__contains__("quic") and (packet.ip.src == '35.227.210.81' or packet.ip.dst == '35.227.210.81')):
+        # if(packet.__contains__("quic") and (packet.ip.src == '35.227.210.81' or packet.ip.dst == '35.227.210.81')):
+        if(packet.__contains__("quic") and (packet.ip.src == '34.120.45.191' or packet.ip.dst == '34.120.45.191')):
             writeByteStringToFile(out, packet.quic.__dict__["_all_fields"])
             if i == 0:
                 for field in fields:
-                    # print(i, "###############", packet.quic.__dict__["_all_fields"][field])
-                    if(field in packet.quic.__dict__["_all_fields"]):
-                        res = res + "-" + packet.quic.__dict__["_all_fields"][field]
+                    if field != "tls.handshake.ciphersuite":
+                        # print(i, "###############", packet.quic.__dict__["_all_fields"][field])
+                        if(field in packet.quic.__dict__["_all_fields"]):
+                            res = res + "-" + packet.quic.__dict__["_all_fields"][field]
+                        else:
+                            res = res + "-0"
                     else:
-                        res = res + "-0"
+                        cipherSuites = packet.quic.get_field('tls_handshake_ciphersuite').all_fields
+                        # print(cipherSuites)
+                        for cipher in cipherSuites:
+                            res = res + "-" + str(cipher)
                 res = res[1:]
                 i += 1
             else:
                 break
-    print("res = ", res)
+    # print("res = ", res)
     hash = hashlib.md5(res.encode('utf-8')).hexdigest()
-    # can call hashlib here to get the has of the resultant string
+    print(hash)
     capture.close()
 
 
-# path = "/Users/ckharbanda/Desktop/227/project/pcap-files/ff-version/"
-
-path = "/Users/ckharbanda/Desktop/227/project/pcap-files/machines/"
+path = "/Users/ckharbanda/Desktop/227/project/github/pcap-files/ff_version/"
+# print(path)
+# path = "/Users/ckharbanda/Desktop/227/project/github/pcap-files/machines/"
 for files in glob.glob(os.path.join(path, '*.pcap')):
     # print(files)
     capture_pcap(files)
